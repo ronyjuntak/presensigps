@@ -5,7 +5,7 @@
       <div class="row g-2 align-items-center">
         <div class="col">
           <h2 class="page-title">
-            Data User
+            Konfigurasi Jam Kerja
           </h2>
         </div>
 
@@ -35,7 +35,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <a href="#" class="btn btn-primary" id="btnTambahkaryawan">
+                                <a href="#" class="btn btn-primary" id="btnTambahJK">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M12 5l0 14"></path>
@@ -47,79 +47,32 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-12">
-                                <form action="/karyawan" method="GET">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <input type="text" name="nama_karyawan" id="nama_karyawan" class="form-control" placeholder="Nama User" value="{{ Request('nama_karyawan') }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="form-group">
-                                                <select name="kode_dept" id="kode_dept" class="form-select">
-                                                    <option value="">Departemen</option>
-                                                    @foreach ($departemen as $d)
-                                                    <option {{ Request('kode_dept')==$d->kode_dept ? 'selected' : ''}} value="{{ $d->kode_dept }}">{{ $d->nama_dept }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-2">
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-primary">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                                        <path d="M21 21l-6 -6"></path>
-                                                     </svg>
-                                                     Cari
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-12">
                                 <table class="table table-border">
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>NIK</th>
-                                            <th>Nama</th>
-                                            <th>Jabatan</th>
-                                            <th>No. HP</th>
-                                            <th>Foto</th>
-                                            <th>Departemen</th>
-                                            <th>Cabang</th>
+                                            <th>Kode JK</th>
+                                            <th>Nama JK</th>
+                                            <th>Awal Jam Masuk</th>
+                                            <th>Jam Masuk</th>
+                                            <th>Akhir Jam Masuk</th>
+                                            <th>Jam Pulang</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($karyawan as $d)
-                                        @php
-                                            $path = Storage::url('uploads/karyawan/'.$d->foto);
-                                        @endphp
-                                            <tr>
-                                                <td>{{ $loop->iteration + $karyawan->firstItem() -1 }}</td>
-                                                <td>{{ $d->nik }}</td>
-                                                <td>{{ $d->nama_lengkap }}</td>
-                                                <td>{{ $d->jabatan }}</td>
-                                                <td>{{ $d->no_hp }}</td>
-                                                <td>
-                                                    @if(empty($d->foto))
-                                                    <img src="{{ asset('assets/img/nophoto.png') }}" class="avatar" alt="">
-                                                    @else
-                                                    <img src="{{ url($path) }}" class="avatar" alt="">
-                                                    @endif
-
-                                                </td>
-                                                <td>{{ $d->nama_dept }}</td>
-                                                <td>{{ $d->kode_cabang }}</td>
+                                        @foreach ($jam_kerja as $d)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $d->kode_jam_kerja }}</td>
+                                            <td>{{ $d->nama_jam_kerja }}</td>
+                                            <td>{{ $d->awal_jam_masuk }}</td>
+                                            <td>{{ $d->jam_masuk }}</td>
+                                            <td>{{ $d->akhir_jam_masuk }}</td>
+                                            <td>{{ $d->jam_pulang }}</td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a href="#" class="edit btn btn-info btn-sm" nik="{{ $d->nik }}">
+                                                        <a href="#" class="edit btn btn-info btn-sm" kode_jam_kerja="{{ $d->kode_jam_kerja }}">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                 <path d="M12 15l8.385 -8.415a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3z"></path>
@@ -127,14 +80,7 @@
                                                                 <path d="M9 7.07a7 7 0 0 0 1 13.93a7 7 0 0 0 6.929 -6"></path>
                                                              </svg>
                                                         </a>
-                                                        <a href="/konfigurasi/{{ $d->nik }}/setjamkerja" class="btn btn-success btn-sm">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"></path>
-                                                                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
-                                                             </svg>
-                                                        </a>
-                                                        <form action="/karyawan/{{ $d->nik }}/delete" method="POST" style="margin-left:5px">
+                                                        <form action="/konfigurasi/jamkerja/{{ $d->kode_jam_kerja }}/delete" method="POST" style="margin-left:5px">
                                                             @csrf
                                                             <a class="btn btn-danger btn-sm delete-confirm">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -148,30 +94,30 @@
                                                             </a>
                                                         </form>
                                                     </div>
-
                                                 </td>
-                                            </tr>
+                                            </td>
+                                        </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{ $karyawan->links('vendor.pagination.bootstrap-4') }}
-                            </div>
+
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal modal-blur fade" id="modal-inputkaryawan" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="modal-inputjk" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Tambah Data User</h5>
+          <h5 class="modal-title">Tambah Data Jam Kerja</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="/karyawan/store" method="POST" id="frmkaryawan" enctype="multipart/form-data">
+          <form action="/konfigurasi/storejamkerja" method="POST" id="frmJK">
             @csrf
             <div class="row">
                 <div class="col-12">
@@ -184,7 +130,7 @@
                             <path d="M15 9h.01"></path>
                          </svg>
                         </span>
-                        <input type="text" maxlength="12" value="" id="nik" class="form-control" placeholder="NIK" name="nik">
+                        <input type="text" value="" id="kode_jam_kerja" class="form-control" placeholder="Kode Jam Kerja" name="kode_jam_kerja">
                       </div>
                 </div>
             </div>
@@ -193,13 +139,13 @@
                     <div class="input-icon mb-3">
                         <span class="input-icon-addon">
                           <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-key" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                            <path d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0z"></path>
+                            <path d="M15 9h.01"></path>
                          </svg>
                         </span>
-                        <input type="text" value="" id="nama_lengkap" class="form-control" name="nama_lengkap" placeholder="Nama User">
+                        <input type="text" value="" id="nama_jam_kerja" class="form-control" placeholder="Nama Jam Kerja" name="nama_jam_kerja">
                       </div>
                 </div>
             </div>
@@ -208,17 +154,15 @@
                     <div class="input-icon mb-3">
                         <span class="input-icon-addon">
                           <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users-group" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alarm" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
-                            <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1"></path>
-                            <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
-                            <path d="M17 10h2a2 2 0 0 1 2 2v1"></path>
-                            <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
-                            <path d="M3 13v-1a2 2 0 0 1 2 -2h2"></path>
+                            <path d="M12 13m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                            <path d="M12 10l0 3l2 0"></path>
+                            <path d="M7 4l-2.75 2"></path>
+                            <path d="M17 4l2.75 2"></path>
                          </svg>
                         </span>
-                        <input type="text" id="jabatan" value="" class="form-control" name="jabatan" placeholder="Jabatan">
+                        <input type="text" value="" id="awal_jam_masuk" class="form-control" placeholder="Awal Jam Masuk" name="awal_jam_masuk">
                       </div>
                 </div>
             </div>
@@ -227,38 +171,50 @@
                     <div class="input-icon mb-3">
                         <span class="input-icon-addon">
                           <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-phone" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alarm" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path>
+                            <path d="M12 13m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                            <path d="M12 10l0 3l2 0"></path>
+                            <path d="M7 4l-2.75 2"></path>
+                            <path d="M17 4l2.75 2"></path>
                          </svg>
                         </span>
-                        <input type="text" id="no_hp" value="" class="form-control" name="no_hp" placeholder="No. HP">
+                        <input type="text" value="" id="jam_masuk" class="form-control" placeholder="Jam Masuk" name="jam_masuk">
                       </div>
                 </div>
             </div>
-            <div class="row mt-2">
+            <div class="row">
                 <div class="col-12">
-                    <input type="file" name="foto" class="form-control">
+                    <div class="input-icon mb-3">
+                        <span class="input-icon-addon">
+                          <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alarm" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M12 13m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                            <path d="M12 10l0 3l2 0"></path>
+                            <path d="M7 4l-2.75 2"></path>
+                            <path d="M17 4l2.75 2"></path>
+                         </svg>
+                        </span>
+                        <input type="text" value="" id="akhir_jam_masuk" class="form-control" placeholder="Akhir Jam Masuk" name="akhir_jam_masuk">
+                      </div>
                 </div>
             </div>
-            <div class="row mt-2">
+            <div class="row">
                 <div class="col-12">
-                    <select name="kode_dept" id="kode_dept" class="form-select">
-                        <option value="">Departemen</option>
-                        @foreach ($departemen as $d)
-                        <option value="{{ $d->kode_dept }}">{{ $d->nama_dept }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-12">
-                    <select name="kode_cabang" id="kode_cabang" class="form-select">
-                        <option value="">Cabang</option>
-                        @foreach ($cabang as $d)
-                        <option value="{{ $d->kode_cabang }}">{{ strtoupper($d->nama_cabang) }}</option>
-                        @endforeach
-                    </select>
+                    <div class="input-icon mb-3">
+                        <span class="input-icon-addon">
+                          <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alarm" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M12 13m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                            <path d="M12 10l0 3l2 0"></path>
+                            <path d="M7 4l-2.75 2"></path>
+                            <path d="M17 4l2.75 2"></path>
+                         </svg>
+                        </span>
+                        <input type="text" value="" id="jam_pulang" class="form-control" placeholder="Jam Pulang" name="jam_pulang">
+                      </div>
                 </div>
             </div>
             <div class="row mt-2">
@@ -282,12 +238,12 @@
       </div>
     </div>
   </div>
-{{-- ModalEdit --}}
-  <div class="modal modal-blur fade" id="modal-editkaryawan" tabindex="-1" role="dialog" aria-hidden="true">
+
+  <div class="modal modal-blur fade" id="modal-editjk" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Edit Data User</h5>
+          <h5 class="modal-title">Edit Data Jam Kerja</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" id="loadeditform">
@@ -300,33 +256,16 @@
 @endsection
 
 @push('myscript')
-<script>
-    $(function(){
+    <script>
+        $(function(){
 
-        $("#nik").mask("000000000000");
-        $("#no_hp").mask("0000000000000");
-        $("#btnTambahkaryawan").click(function(){
-            $("#modal-inputkaryawan").modal("show");
-        });
+            $("#awal_jam_masuk, #jam_masuk, #akhir_jam_masuk, #jam_pulang").mask("00:00")
 
-        $(".edit").click(function(){
-            var nik = $(this).attr('nik');
-            $.ajax({
-                type:'POST',
-                url:'/karyawan/edit',
-                cache:false,
-                data:{
-                    _token:"{{ csrf_token(); }}",
-                    nik:nik
-                },
-                success:function(respond){
-                    $("#loadeditform").html(respond);
-                }
+            $("#btnTambahJK").click(function(){
+                $("#modal-inputjk").modal("show");
             });
-            $("#modal-editkaryawan").modal("show");
-        });
 
-        $(".delete-confirm").click(function(e){
+            $(".delete-confirm").click(function(e){
             var form = $(this).closest('form');
             e.preventDefault();
             Swal.fire({
@@ -349,66 +288,105 @@
             })
         });
 
-        $("#frmkaryawan").submit(function(){
-            var nik = $("#nik").val();
-            var nama_lengkap = $("#nama_lengkap").val();
-            var jabatan = $("#jabatan").val();
-            var no_hp = $("#no_hp").val();
-            var kode_dept = $("frmKaryawan").find("#kode_dept").val();
-            if(nik==""){
-                // alert('NIK Harus Diisi');
+            $("#frmJK").submit(function(){
+            var kode_jam_kerja = $("#kode_jam_kerja").val();
+            var nama_jam_kerja = $("#nama_jam_kerja").val();
+            var awal_jam_masuk = $("#awal_jam_masuk").val();
+            var jam_masuk = $("#jam_masuk").val();
+            var akhir_jam_masuk = $("#akhir_jam_masuk").val();
+            var jam_pulang = $("#jam_pulang").val();
+
+            if(kode_jam_kerja==""){
+                // alert('Kode Cabang Harus Diisi');
                 Swal.fire({
                 title: 'Warning!',
-                text: 'NIK Harus Diisi',
+                text: 'Kode Jam Kerja Harus Diisi',
                 icon: 'warning',
                 confirmButtonText: 'OK'
                 }).then((result)=>{
-                    $("#nik").focus();
+                    $("#kode_jam_kerja").focus();
                 });
 
                 return false;
-            }else if(nama_lengkap==""){
+            }else if(nama_jam_kerja==""){
+                // alert('Kode Cabang Harus Diisi');
                 Swal.fire({
                 title: 'Warning!',
-                text: 'Nama Harus Diisi',
+                text: 'Nama Jam Kerja Harus Diisi',
                 icon: 'warning',
                 confirmButtonText: 'OK'
                 }).then((result)=>{
-                    $("#nama_lengkap").focus();
+                    $("#nama_jam_kerja").focus();
                 });
+
                 return false;
-            }else if(jabatan==""){
+            }else if(awal_jam_masuk==""){
+                // alert('Kode Cabang Harus Diisi');
                 Swal.fire({
                 title: 'Warning!',
-                text: 'Jabatan Harus Diisi',
+                text: 'Awal Jam Masuk Harus Diisi',
                 icon: 'warning',
                 confirmButtonText: 'OK'
                 }).then((result)=>{
-                    $("#jabatan").focus();
+                    $("#awal_jam_masuk").focus();
                 });
+
                 return false;
-            }else if(no_hp==""){
+            }else if(jam_masuk==""){
+                // alert('Kode Cabang Harus Diisi');
                 Swal.fire({
                 title: 'Warning!',
-                text: 'No. HP Harus Diisi',
+                text: 'Jam Masuk Harus Diisi',
                 icon: 'warning',
                 confirmButtonText: 'OK'
                 }).then((result)=>{
-                    $("#no-hp").focus();
+                    $("#jam_masuk").focus();
                 });
+
                 return false;
-            }else if(kode_dept==""){
+            }else if(akhir_jam_masuk==""){
+                // alert('Kode Cabang Harus Diisi');
                 Swal.fire({
                 title: 'Warning!',
-                text: 'Departemen Harus Diisi',
+                text: 'Akhir Jam Masuk Harus Diisi',
                 icon: 'warning',
                 confirmButtonText: 'OK'
                 }).then((result)=>{
-                    $("#kode_dept").focus();
+                    $("#akhir_jam_masuk").focus();
                 });
+
+                return false;
+            }else if(jam_pulang==""){
+                // alert('Kode Cabang Harus Diisi');
+                Swal.fire({
+                title: 'Warning!',
+                text: 'Jam Pulang Harus Diisi',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result)=>{
+                    $("#jam_pulang").focus();
+                });
+
                 return false;
             }
         });
-    });
-</script>
+
+        $(".edit").click(function(){
+            var kode_jam_kerja = $(this).attr('kode_jam_kerja');
+            $.ajax({
+                type:'POST',
+                url:'/konfigurasi/editjamkerja',
+                cache:false,
+                data:{
+                    _token:"{{ csrf_token(); }}",
+                    kode_jam_kerja:kode_jam_kerja
+                },
+                success:function(respond){
+                    $("#loadeditform").html(respond);
+                }
+            });
+            $("#modal-editjk").modal("show");
+        });
+        });
+    </script>
 @endpush

@@ -24,16 +24,46 @@
     #map
     { height: 200px;
     }
+    .jam-digital-malasngoding {
+
+ background-color: #27272783;
+ position: absolute;
+ top: 65px;
+ right: 10px;
+ z-index: 9999;
+ width: 150px;
+ border-radius: 10px;
+ padding: 5px;
+}
+
+
+
+.jam-digital-malasngoding p {
+ color: #fff;
+ font-size: 16px;
+ text-align: left;
+ margin-top: 0;
+ margin-bottom: 0;
+}
 </style>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 @endsection
 @section('content')
-<div class="row" style="margin-top: 70px">
+<div class="row" style="margin-top: 60px">
     <div class="col">
         <input type="hidden" id="lokasi">
         <div class="webcam-capture"></div>
     </div>
+</div>
+<div class="jam-digital-malasngoding">
+    <p>{{ date("d-m-Y") }}</p>
+    <p id="jam"></p>
+    <p>{{ $jamkerja->nama_jam_kerja }}</p>
+    <p>Mulai Absen : {{ date("H:i",strtotime($jamkerja->awal_jam_masuk)) }}</p>
+    <p>Masuk : {{ date("H:i",strtotime($jamkerja->jam_masuk)) }}</p>
+    <p>Batas Absen : {{ date("H:i",strtotime($jamkerja->akhir_jam_masuk)) }}</p>
+    <p>Pulang : {{ date("H:i",strtotime($jamkerja->jam_pulang)) }}</p>
 </div>
 <div class="row">
     <div class="col">
@@ -65,14 +95,42 @@
 <audio id="radius_sound">
     <source src="{{ asset('assets/sound/radius.mp3') }}" type="audio/mpeg">
 </audio>
+<audio id="notifikasi_pulang">
+    <source src="{{ asset('assets/sound/notifikasi_pulang.mp3') }}" type="audio/mpeg">
+</audio>
 @endsection
 
 @push ('myscript')
+<script type="text/javascript">
+    window.onload = function() {
+        jam();
+    }
+
+    function jam() {
+        var e = document.getElementById('jam')
+            , d = new Date()
+            , h, m, s;
+        h = d.getHours();
+        m = set(d.getMinutes());
+        s = set(d.getSeconds());
+
+        e.innerHTML = h + ':' + m + ':' + s;
+
+        setTimeout('jam()', 1000);
+    }
+
+    function set(e) {
+        e = e < 10 ? '0' + e : e;
+        return e;
+    }
+
+</script>
 <script>
 
     var notifikasi_in = document.getElementById('notifikasi_in');
     var notifikasi_out = document.getElementById('notifikasi_out');
     var radius_sound = document.getElementById('radius_sound');
+    var notifikasi_pulang = document.getElementById('notifikasi_pulang');
     Webcam.set({
         height:480,
         width:640,
@@ -90,11 +148,11 @@
     function successCallback(position){
         lokasi.value = position.coords.latitude + "," + position.coords.longitude;
         var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 16);
-        var lokasi_kantor = "{{ $lok_kantor->lokasi_kantor }}";
+        var lokasi_kantor = "{{ $lok_kantor->lokasi_cabang }}";
         var lok = lokasi_kantor.split(",");
         var lat_kantor = lok[0];
         var long_kantor = lok[1];
-        var radius = "{{ $lok_kantor->radius }}";
+        var radius = "{{ $lok_kantor->radius_cabang }}";
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -104,7 +162,7 @@
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
-            radius: 30
+            radius: {{ $lok_kantor->radius_cabang }}
         }).addTo(map);
     }
 
@@ -138,7 +196,7 @@
                         text: status[1],
                         icon: 'success'
                     })
-                    setTimeout("location.href='/dashboard'",5000);
+                    setTimeout("location.href='/dashboard'",3000);
                 }else{
                     if(status[2] == "radius"){
                         radius_sound.play();
@@ -148,8 +206,16 @@
                         text: status[1],
                         icon: 'error'
                     })
-                }
 
+                    if(status[2] == "out"){
+                        notifikasi_pulang.play();
+                    }
+                    Swal.fire({
+                        title: 'Error!',
+                        text: status[1],
+                        icon: 'error'
+                    })
+                }
             }
         });
 

@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-<div class="row" style="margin-top:4rem">
+<div class="row" style="margin-top:2rem">
     <div class="col">
         @php
         $messagesuccess = Session::get('success');
@@ -30,6 +30,10 @@
            {{ $messageerror }}
         </div>
         @endif
+
+        @error('foto')
+
+        @enderror
     </div>
 </div>
 <form action="/presensi/{{ $karyawan->nik }}/updateprofile" method="POST" enctype="multipart/form-data" style="margin-top:4rem">
@@ -47,7 +51,7 @@
         </div>
         <div class="form-group boxed">
             <div class="input-wrapper">
-                <input type="password" class="form-control" name="password" placeholder="Password" autocomplete="off">
+                <input type="text" class="form-control" name="password" placeholder="Password" autocomplete="off">
             </div>
         </div>
         <div class="custom-file-upload" id="fileUpload1">

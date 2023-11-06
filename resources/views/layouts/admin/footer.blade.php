@@ -3,9 +3,9 @@
       <div class="row text-center align-items-center flex-row-reverse">
         <div class="col-lg-auto ms-lg-auto">
           <ul class="list-inline list-inline-dots mb-0">
-            <li class="list-inline-item"><a href="https://tabler.io/docs" target="_blank" class="link-secondary" rel="noopener">Documentation</a></li>
+            <li class="list-inline-item"><a href="#" target="_blank" class="link-secondary" rel="noopener">Documentation</a></li>
             <li class="list-inline-item"><a href="./license.html" class="link-secondary">License</a></li>
-            <li class="list-inline-item"><a href="https://github.com/tabler/tabler" target="_blank" class="link-secondary" rel="noopener">Source code</a></li>
+            <li class="list-inline-item"><a href="#" target="_blank" class="link-secondary" rel="noopener">Source code</a></li>
             <li class="list-inline-item">
               <a href="https://github.com/sponsors/codecalm" target="_blank" class="link-secondary" rel="noopener">
                 <!-- Download SVG icon from http://tabler-icons.io/i/heart -->
@@ -19,7 +19,7 @@
           <ul class="list-inline list-inline-dots mb-0">
             <li class="list-inline-item">
               Copyright &copy; 2023
-              <a href="." class="link-secondary">Tabler</a>.
+              <a href="." class="link-secondary">rony simanjuntak</a>.
               All rights reserved.
             </li>
             <li class="list-inline-item">

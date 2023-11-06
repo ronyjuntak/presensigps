@@ -1,7 +1,22 @@
 @extends('layouts.presensi')
 @section('content')
+<style>
+.logout{
+    position:absolute;
+    color: white;
+    font-size: 30px;
+    text-decoration: none;
+    right: 8px
+}
 
+.logout:hover {
+    color: white;
+}
+</style>
 <div class="section" id="user-section">
+    <a href="/proseslogout" class="logout">
+        <ion-icon name="exit-outline"></ion-icon>
+    </a>
     <div id="user-detail">
         <div class="avatar">
             @if(!empty(Auth::guard('karyawan')->user()->foto))
@@ -14,8 +29,9 @@
             @endif
         </div>
         <div id="user-info">
-            <h2 id="user-name">{{ Auth::guard('karyawan')->user()->nama_lengkap }}</h2>
+            <h3 id="user-name">{{ Auth::guard('karyawan')->user()->nama_lengkap }}</h3>
             <span id="user-role">{{ Auth::guard('karyawan')->user()->jabatan }}</span>
+            <span id="user-role">({{ Auth::guard('karyawan')->user()->kode_cabang }})</span>
         </div>
     </div>
 </div>
@@ -180,6 +196,7 @@
         </div>
         <div class="tab-content mt-2" style="margin-bottom:100px;">
             <div class="tab-pane fade show active" id="home" role="tabpanel">
+                <!--
                 <ul class="listview image-listview">
                     @foreach ($historibulanini as $d)
                     @php
@@ -199,6 +216,60 @@
                     </li>
                     @endforeach
                 </ul>
+            -->
+            <style>
+                .historicontent{
+                    display: flex;
+                }
+
+                .datapresensi{
+                    margin-left: 10px;
+                }
+            </style>
+            @foreach ($historibulanini as $d)
+            <div class="card mb-1">
+                <div class="card-body">
+                    <div class="historicontent">
+                        <div class="iconpresensi">
+                            <ion-icon name="finger-print-outline" style="font-size:48px" class="text-success"></ion-icon>
+                        </div>
+                        <div class="datapresensi">
+                            <h3 style="line-height: 3px">{{ $d->nama_jam_kerja }}</h3>
+                            <h4 style="margin: 0px !important">{{ date("d-m-Y",strtotime($d->tgl_presensi)) }}</h4>
+                            <span>
+                                {!! $d->jam_in != null ? date("H:i",strtotime($d->jam_in)) : '<span class="text-danger">Belum Absen</span>' !!}
+                            </span>
+                            <span>
+                                {!! $d->jam_out != null ? "-". date("H:i",strtotime($d->jam_out)) : '<span class="text-danger">- Belum Absen</span>' !!}
+                            </span>
+                            <br>
+                            <span>{!! date("H:i",strtotime($d->jam_in)) > date("H:i",strtotime($d->jam_masuk)) ? '<span class="text-danger">Terlambat</span>' : '<span class="text-success">Tepat Waktu</span>' !!}</span>
+                            <div id="keterangan" class="mt-2">
+                                @php
+                                //Jam Ketika Absen
+                                $jam_in = date("H:i",strtotime($d->jam_in));
+
+                                //Jam Jadwal Masuk
+                                $jam_masuk = date("H:i",strtotime($d->jam_masuk));
+
+                                $jadwal_jam_masuk = $d->tgl_presensi." ".$jam_masuk;
+                                $jam_presensi = $d->tgl_presensi." ".$jam_in;
+                                @endphp
+                                @if($jam_in > $jam_masuk)
+                                @php
+                                $jmlterlambat = hitungjamterlambat($jadwal_jam_masuk,$jam_presensi);
+                                $jmlterlambatdesimal = hitungjamterlambatdesimal($jadwal_jam_masuk,$jam_presensi);
+                                @endphp
+                                <span class="danger">Terlambat {{ $jmlterlambat }} ({{ $jmlterlambatdesimal }} Jam)</span>
+                                @else
+                                <span style="color:green">Tepat Waktu</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel">
                 <ul class="listview image-listview">

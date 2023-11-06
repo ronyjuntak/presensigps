@@ -13,7 +13,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Dashboard - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
+    <title>Dashboard Admin</title>
     <script defer data-api="/stats/api/event" data-domain="preview.tabler.io" src="/stats/js/script.js"></script>
     <meta name="msapplication-TileColor" content="#0054a6"/>
     <meta name="theme-color" content="#0054a6"/>
@@ -81,7 +81,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{ asset('tabler/dist/js/tabler.min.js?1695847769') }}" defer></script>
     <script src="{{ asset('tabler/dist/js/demo.min.js?1695847769') }}" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('assets/js/lib/sweetalert.js') }}"></script>
+    <script src="{{ asset('assets/js/lib/jquery.mask.min.js') }}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

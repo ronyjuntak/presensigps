@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CabangController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartemenController;
+use App\Http\Controllers\IzinabsenController;
+use App\Http\Controllers\IzinsakitController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\KonfigurasiController;
 use App\Http\Controllers\PresensiController;
@@ -59,6 +62,20 @@ Route::middleware(['auth:karyawan'])->group(function(){
     Route::get('/presensi/buatizin',[PresensiController::class,'buatizin']);
     Route::post('/presensi/storeizin',[PresensiController::class,'storeizin']);
     Route::post('/presensi/cekpengajuanizin',[PresensiController::class,'cekpengajuanizin']);
+
+    //Izin Absen
+    Route::get('/izinabsen',[IzinabsenController::class,'create']);
+    Route::post('/izinabsen/store',[IzinabsenController::class,'store']);
+    Route::get('/izinabsen/{kode_izin}/edit',[IzinabsenController::class,'edit']);
+    Route::post('/izinabsen/{kode_izin}/update',[IzinabsenController::class,'update']);
+
+    //Izin Sakit
+    Route::get('/izinsakit',[IzinsakitController::class,'create']);
+    Route::post('/izinsakit/store',[IzinsakitController::class,'store']);
+    Route::get('/izinsakit/{kode_izin}/edit',[IzinsakitController::class,'edit']);
+    Route::post('/izinsakit/{kode_izin}/update',[IzinsakitController::class,'update']);
+
+    Route::get('/izin/{kode_izin}/showact',[PresensiController::class, 'showact']);
 });
 
 
@@ -90,12 +107,31 @@ Route::middleware(['auth:user'])->group(function(){
     Route::post('/presensi/cetakrekap',[PresensiController::class,'cetakrekap']);
     Route::get('/presensi/izinsakit',[PresensiController::class,'izinsakit']);
     Route::post('/presensi/approveizinsakit',[PresensiController::class,'approveizinsakit']);
-    Route::get('/presensi/{id}/batalkanizinsakit',[PresensiController::class,'batalkanizinsakit']);
+    Route::get('/presensi/{kode_izin}/batalkanizinsakit',[PresensiController::class,'batalkanizinsakit']);
+
+    //Cabang
+    Route::get('/cabang',[CabangController::class,'index']);
+    Route::post('/cabang/store',[CabangController::class,'store']);
+    Route::post('/cabang/edit',[CabangController::class,'edit']);
+    Route::post('/cabang/update',[CabangController::class,'update']);
+    Route::post('/cabang/{kode_cabang}/delete',[CabangController::class,'delete']);
 
 
     //Konfigurasi
     Route::get('/konfigurasi/lokasikantor',[KonfigurasiController::class,'lokasikantor']);
     Route::post('/konfigurasi/updatelokasikantor',[KonfigurasiController::class,'updatelokasikantor']);
+
+    Route::get('/konfigurasi/jamkerja',[KonfigurasiController::class,'jamkerja']);
+    Route::post('/konfigurasi/storejamkerja',[KonfigurasiController::class,'storejamkerja']);
+    Route::post('/konfigurasi/editjamkerja',[KonfigurasiController::class,'editjamkerja']);
+    Route::post('/konfigurasi/updatejamkerja',[KonfigurasiController::class,'updatejamkerja']);
+    Route::post('/konfigurasi/{kode_jam_kerja}/delete',[KonfigurasiController::class,'deletejamkerja']);
+    Route::get('/konfigurasi/{nik}/setjamkerja',[KonfigurasiController::class,'setjamkerja']);
+    Route::post('/konfigurasi/storesetjamkerja',[KonfigurasiController::class,'storesetjamkerja']);
+    Route::post('/konfigurasi/updatesetjamkerja',[KonfigurasiController::class,'updatesetjamkerja']);
+    Route::post('/konfigurasi/jamkerja/{kode_jam_kerja}/delete',[KonfigurasiController::class,'deletejamkerja']);
+
+
 });
 
 

@@ -35,7 +35,7 @@
             </div>
             <div class="section mt-1">
                 <h2>E-Presensi SMK Pariwisata HKBP</h2>
-                <h4>Silahkan Login Guys</h4>
+                <h4>Silahkan Login</h4>
             </div>
             <div class="section mt-1 mb-5">
                 @php
@@ -50,7 +50,7 @@
                     @csrf
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <input type="text" name="nik" class="form-control" id="nik" placeholder="Nomor Pegawai">
+                            <input type="text" name="nik" class="form-control" id="nik" placeholder="Nomor ID">
                             <i class="clear-input">
                                 <ion-icon name="close-circle"></ion-icon>
                             </i>
