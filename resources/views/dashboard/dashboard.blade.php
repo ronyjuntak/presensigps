@@ -227,6 +227,7 @@
                 }
             </style>
             @foreach ($historibulanini as $d)
+            @if($d->status=="h")
             <div class="card mb-1">
                 <div class="card-body">
                     <div class="historicontent">
@@ -269,6 +270,48 @@
                     </div>
                 </div>
             </div>
+            @elseif($d->status=="i")
+            <div class="card mb-1">
+                <div class="card-body">
+                    <div class="historicontent">
+                        <div class="iconpresensi">
+                            <ion-icon name="document-outline" style="font-size:48px" class="text-warning"></ion-icon>
+                        </div>
+                        <div class="datapresensi">
+                            <h3 style="line-height: 3px">IZIN - {{ $d->kode_izin }}</h3>
+                            <h4 style="margin: 0px !important">{{ date("d-m-Y",strtotime($d->tgl_presensi)) }}</h4>
+                            <span>
+                                {{ $d->keterangan }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @elseif($d->status=="s")
+            <div class="card mb-1">
+                <div class="card-body">
+                    <div class="historicontent">
+                        <div class="iconpresensi">
+                            <ion-icon name="medkit-outline" style="font-size:48px" class="text-primary"></ion-icon>
+                        </div>
+                        <div class="datapresensi">
+                            <h3 style="line-height: 3px">Sakit - {{ $d->kode_izin }}</h3>
+                            <h4 style="margin: 0px !important">{{ date("d-m-Y",strtotime($d->tgl_presensi)) }}</h4>
+                            <span>
+                                {{ $d->keterangan }}
+                            </span>
+                            <br>
+                            @if(!empty($d->doc_sid))
+                            <span style="color:blue">
+                                <ion-icon name="document-attach-outline"></ion-icon> SID
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+
             @endforeach
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel">
