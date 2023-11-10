@@ -98,54 +98,74 @@
             <tr>
                 <th rowspan="2">NIK</th>
                 <th rowspan="2">Nama User</th>
-                <th colspan="31">Tanggal</th>
-                <th rowspan="2">TH</th>
-                <th rowspan="2">TK</th>
+                <th colspan="{{ $jmlhari }}">Bulan {{ $namabulan[$bulan] }} {{ $tahun }}</th>
+                <th rowspan="2">H</th>
+                <th rowspan="2">I</th>
+                <th rowspan="2">S</th>
+                <th rowspan="2">A</th>
             </tr>
             <tr>
-                <?php
-                for ($i=1; $i<=31 ; $i++) {
-                ?>
-                <th>{{ $i }}</th>
-                <?php
-                }
-                ?>
-
-            </tr>
-            <tr>
-                @foreach ($rekap as $d)
-                    <tr>
-                        <td>{{ $d->nik }}</td>
-                        <td>{{ $d->nama_lengkap }}</td>
-
-                    <?php
-                    $totalhadir = 0;
-                    $totalterlambat = 0;
-                    for ($i=1; $i<=31 ; $i++) {
-                        $tgl = "tgl_".$i;
-                        if(empty($d->$tgl)){
-                            $hadir = ['',''];
-                            $totalhadir += 0;
-                        }else{
-                            $hadir = explode("-",$d->$tgl);
-                            $totalhadir += 1;
-                            if($hadir[0] > $d->jam_masuk){
-                                $totalterlambat +=1;
-                            }
-                        }
-                    ?>
-
-                    <td>
-                        <span style="color : {{ $hadir[0] > $d->jam_masuk ? "red" :""  }}">{{ !empty($hadir[0]) ? $hadir[0] : '-' }}<br></span>
-                        <span style="color : {{ $hadir[1] < $d->jam_pulang ? "red" :""  }}">{{ !empty($hadir[1]) ? $hadir[1] : '-' }}<br></span>
-                    </td>
-                    <?php
-                    }
-                    ?>
-                    <td>{{ $totalhadir }}</td>
-                    <td>{{ $totalterlambat }}</td>
-                </tr>
+                @foreach ($rangetanggal as $d)
+                @if($d != NULL)
+                <th>{{ date("d",strtotime($d)) }}</th>
+                @endif
                 @endforeach
+
+            </tr>
+            @foreach ($rekap as $r)
+            <tr>
+                <td>{{ $r->nik }}</td>
+                <td>{{ $r->nama_lengkap }}</td>
+
+                <?php
+                    $jml_hadir = 0;
+                    $jml_izin = 0;
+                    $jml_sakit = 0;
+                    $jml_alpa = 0;
+                    $color = "";
+                    for ($i=1; $i <= $jmlhari ; $i++) {
+                        $tgl = "tgl_".$i;
+                        $datapresensi = explode("|",$r->$tgl);
+                        if($r->$tgl != NULL){
+                            $status = $datapresensi[2];
+                        }else {
+                            $status = "";
+                        }
+
+                        if($status == "h"){
+                            $jml_hadir += 1;
+                            $color = "white";
+                        }
+
+                        if($status == "i"){
+                            $jml_izin += 1;
+                            $color = "yellow";
+                        }
+
+                        if($status == "s"){
+                            $jml_sakit += 1;
+                            $color = "blue";
+                        }
+
+                        if(empty($status)){
+                            $jml_alpa += 1;
+                            $color = "red";
+                        }
+                ?>
+                <td style="background-color: {{ $color }}">
+                    {{ $status }}
+                </td>
+                <?php
+                    }
+                ?>
+                <td>{{ !empty($jml_hadir) ? $jml_hadir : "" }}</td>
+                <td>{{ !empty($jml_izin) ? $jml_izin : "" }}</td>
+                <td>{{ !empty($jml_sakit) ? $jml_sakit : "" }}</td>
+                <td>{{ !empty($jml_alpa) ? $jml_alpa : "" }}</td>
+            </tr>
+            @endforeach
+            <tr>
+
             </tr>
         </table>
 
