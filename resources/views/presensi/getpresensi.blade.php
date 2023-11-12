@@ -19,6 +19,7 @@
 $foto_in = Storage::url('uploads/absensi/'.$d->foto_in);
 $foto_out = Storage::url('uploads/absensi/'.$d->foto_out);
 @endphp
+@if($d->status=="h")
 <tr>
     <td>{{ $loop->iteration }}</td>
     <td>{{ $d->nik }}</td>
@@ -43,6 +44,7 @@ $foto_out = Storage::url('uploads/absensi/'.$d->foto_out);
         @endif
 
     </td>
+    <td>{{ $d->status }}</td>
     <td>
         @if($d->jam_in >= $d->jam_masuk)
         @php
@@ -66,6 +68,31 @@ $foto_out = Storage::url('uploads/absensi/'.$d->foto_out);
         </a>
     </td>
 </tr>
+@else
+<tr>
+    <td>{{ $loop->iteration }}</td>
+    <td>{{ $d->nik }}</td>
+    <td>{{ $d->nama_lengkap }}</td>
+    <td>{{ $d->kode_dept }}</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+        @if($d->status=="i")
+        <span class="badge bg-warning">I</span>
+        @elseif($d->status=="s")
+        <span class="badge bg-info">S</span>
+        @elseif($d->status=="h")
+        <span class="badge bg-primary">H</span>
+        @endif
+    </td>
+    <td>{{ $d->keterangan }}</td>
+    <td></td>
+</tr>
+@endif
+
 @endforeach
 
 <script>

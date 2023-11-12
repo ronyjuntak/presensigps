@@ -51,6 +51,7 @@
                                             <th>Foto</th>
                                             <th>Jam Keluar</th>
                                             <th>Foto</th>
+                                            <th>Status</th>
                                             <th>Keterangan</th>
                                             <th></th>
                                         </tr>
