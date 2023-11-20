@@ -105,7 +105,7 @@ class KaryawanController extends Controller
                 'no_hp'=>$no_hp,
                 'kode_dept'=>$kode_dept,
                 'foto'=>$foto,
-                'password'=>$password,
+                //'password'=>$password,
                 'kode_cabang'=>$kode_cabang
             ];
             $update = DB::table('karyawan')->where('nik',$nik)->update($data);
