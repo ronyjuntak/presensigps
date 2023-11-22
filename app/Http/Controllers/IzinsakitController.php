@@ -48,6 +48,29 @@ class IzinsakitController extends Controller
             'doc_sid'=>$sid
         ];
 
+        //Cek sudah Absen/Belum
+
+        $cekpresensi = DB::table('presensi')
+        ->whereBetween('tgl_presensi',[$tgl_izin_dari,$tgl_izin_sampai]);
+
+        //Cek sudah diajukan/belum
+
+        $cekpengajuan = DB::table('pengajuan_izin')
+        ->whereRaw('"' .$tgl_izin_dari. '" BETWEEN tgl_izin_dari AND tgl_izin_sampai');
+
+        $datapresensi = $cekpresensi->get();
+
+
+        if($cekpresensi->count() > 0) {
+            $blacklistdate = "";
+            foreach ($datapresensi as $d) {
+                $blacklistdate .= date('d-m-Y',strtotime($d->tgl_presensi)) . ", ";
+            }
+            return redirect('/presensi/izin')->with(['error'=>'Tanggal '.$blacklistdate.' Sudah Digunakan']);
+        } else if ($cekpengajuan->count() > 0) {
+            return redirect('/presensi/izin')->with(['error'=>'Tanggal Sudah Digunakan']);
+        } else {
+
         $simpan = DB::table('pengajuan_izin')->insert($data);
 
         if($simpan){
@@ -61,6 +84,7 @@ class IzinsakitController extends Controller
             return redirect('/presensi/izin')->with(['error'=>'Data Gagal Disimpan']);
         }
     }
+}
 
     public function edit($kode_izin)
     {
