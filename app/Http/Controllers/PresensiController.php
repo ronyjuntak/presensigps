@@ -282,11 +282,15 @@ class PresensiController extends Controller
         $nik = Auth::guard('karyawan')->user()->nik;
 
         $histori = DB::table('presensi')
+            ->select('presensi.*','keterangan','jam_kerja.*')
+            ->leftJoin('jam_kerja','presensi.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
+            ->leftJoin('pengajuan_izin','presensi.kode_izin','=','pengajuan_izin.kode_izin')
+            ->where('presensi.nik',$nik)
             ->whereRaw('MONTH(tgl_presensi)="'.$bulan.'"')
             ->whereRaw('YEAR(tgl_presensi)="'.$tahun.'"')
-            ->where('nik',$nik)
             ->orderBy('tgl_presensi')
             ->get();
+
 
         return view('presensi.gethistori', compact('histori'));
     }

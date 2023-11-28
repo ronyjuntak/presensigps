@@ -220,15 +220,17 @@
             <style>
                 .historicontent{
                     display: flex;
+                    margin-top: 10px;
                 }
 
                 .datapresensi{
                     margin-left: 10px;
                 }
+
             </style>
             @foreach ($historibulanini as $d)
             @if($d->status=="h")
-            <div class="card mb-1">
+            <div class="card mb-1" style="border: 1px solid blue">
                 <div class="card-body">
                     <div class="historicontent">
                         <div class="iconpresensi">
@@ -271,7 +273,7 @@
                 </div>
             </div>
             @elseif($d->status=="i")
-            <div class="card mb-1">
+            <div class="card mb-1" style="border: 1px solid yellow">
                 <div class="card-body">
                     <div class="historicontent">
                         <div class="iconpresensi">
@@ -288,7 +290,7 @@
                 </div>
             </div>
             @elseif($d->status=="s")
-            <div class="card mb-1">
+            <div class="card mb-1" style="border: 1px solid red">
                 <div class="card-body">
                     <div class="historicontent">
                         <div class="iconpresensi">

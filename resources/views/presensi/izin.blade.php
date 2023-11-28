@@ -14,6 +14,7 @@
     .historicontent{
         display: flex;
         gap: 1px;
+        margin-top: 10px;
     }
 
     .datapresensi{
@@ -23,6 +24,10 @@
     .status{
         position: absolute;
         right: 20px;
+    }
+
+    .card{
+        border: 1px solid rgb(78, 78, 225);
     }
 </style>
 
@@ -89,7 +94,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" style="position: fixed; width: 100%; margin: auto; overflow-y:scroll; height: 430px">
     <div class="col">
         @foreach ($dataizin as $d)
         @php
