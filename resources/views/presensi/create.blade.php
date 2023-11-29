@@ -189,7 +189,7 @@
                     if(status[2] == "in"){
                         notifikasi_in.play();
                     } else {
-                    notifikasi_out.play();
+                        notifikasi_out.play();
                     }
                     Swal.fire({
                         title: 'Berhasil!',
