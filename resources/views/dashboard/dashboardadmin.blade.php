@@ -9,7 +9,7 @@
             Overview
           </div>
           <h2 class="page-title">
-            Dashboard
+            Rekap Presensi Hari Ini {{ date("d-m-Y",strtotime(date('Y-m-d'))) }}
           </h2>
         </div>
 
@@ -62,7 +62,7 @@
                       </div>
                       <div class="col">
                         <div class="font-weight-medium">
-                            {{ $rekapizin->jmlizin != null ? $rekapizin->jmlizin : 0 }}
+                            {{ $rekappresensi->jmlizin }}
                         </div>
                         <div class="text-secondary">
                           User Izin
@@ -87,7 +87,7 @@
                       </div>
                       <div class="col">
                         <div class="font-weight-medium">
-                            {{ $rekapizin->jmlsakit != null ? $rekapizin->jmlsakit : 0 }}
+                            {{ $rekappresensi->jmlsakit }}
                         </div>
                         <div class="text-secondary">
                           User Sakit

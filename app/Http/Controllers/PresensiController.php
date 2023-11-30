@@ -98,8 +98,9 @@ class PresensiController extends Controller
             ->where('hari',$namahari)->first();
 
 
-        $cek = DB::table('presensi')->where('tgl_presensi',$tgl_presensi)->where('nik',$nik)->count();
-
+        $presensi = DB::table('presensi')->where('tgl_presensi',$tgl_presensi)->where('nik',$nik);
+        $cek = $presensi->count();
+        $datapresensi = $presensi->first();
         if($cek > 0){
             $ket="out";
         }else{
@@ -122,6 +123,8 @@ class PresensiController extends Controller
             if($cek > 0) {
                 if ($jam < $jamkerja->jam_pulang){
                     echo "error|Maaf Belum Saatnya Untuk Pulang|out";
+                } else if(!empty($datapresensi->jam_out)) {
+                    echo "error|Anda Sudah Melakukan Absen Pulang|out";
                 } else {
                 $data_pulang = [
                     'jam_out'=>$jam,
