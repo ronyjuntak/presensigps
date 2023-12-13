@@ -395,12 +395,14 @@ class PresensiController extends Controller
     public function rekap()
     {
         $namabulan = ["","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-        return view('presensi.rekap',compact('namabulan'));
+        $departemen = DB::table('departemen')->get();
+        return view('presensi.rekap',compact('namabulan','departemen'));
     }
 
     public function cetakrekap(Request $request){
         $bulan = $request->bulan;
         $tahun = $request->tahun;
+        $kode_dept = $request->kode_dept;
         $dari = $tahun. "-" . $bulan . "-01";
         $sampai = date("Y-m-t", strtotime($dari));
         $namabulan = ["","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
@@ -462,6 +464,9 @@ class PresensiController extends Controller
             }
         );
 
+        if(!empty($kode_dept)){
+        $query->where('kode_dept',$kode_dept);
+        }
         $query->orderBy('nama_lengkap');
         $rekap = $query->get();
 

@@ -23,7 +23,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <select name="bulan" id="bulan" class="form-select">
+                                        <select name="bulan" id="bulan" class="form-select" required>
                                             <option value="">Bulan</option>
                                             @for ($i=1; $i<=12; $i++)
                                             <option value="{{ $i }}" {{ date("m")==$i ? 'selected':''}}>{{ $namabulan[$i] }}</option>
@@ -35,7 +35,7 @@
                             <div class="row mt-2">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <select name="tahun" id="tahun" class="form-select">
+                                        <select name="tahun" id="tahun" class="form-select" required>
                                             <option value="">Tahun</option>
                                             @php
                                             $tahunmulai = 2022;
@@ -44,6 +44,18 @@
                                             @for ($tahun=$tahunmulai; $tahun<= $tahunskrg; $tahun++)
                                                 <option value="{{ $tahun }}"{{ date("Y")==$tahun ? 'selected':''}}>{{ $tahun }}</option>
                                                 @endfor
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <select name="kode_dept" id="kode_dept" class="form-select">
+                                            <option value="">Semua Departemen</option>
+                                            @foreach($departemen as $d)
+                                                <option value="{{ $d->kode_dept }}">{{ $d->nama_dept }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
